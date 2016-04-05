@@ -1,68 +1,174 @@
-/**
- *  Spark Core
- *
- *  Copyright 2015 TOM FORTI
- *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- *  in compliance with the License. You may obtain a copy of the License at:
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
- *  on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
- *  for the specific language governing permissions and limitations under the License.
- *
- */
-/**
- *  PHOTON RELAY
- *
- *  Author: tomforti@gmail.com
- *  Date: 2015-10-18
- */
- 
-preferences {
-    input("token", "text", title: "Access Token")
-    input("deviceId", "text", title: "Device ID")
-    input("relaynum", "text", title: "Relay Number 1-8")
-}
- 
- // for the UI
-metadata {
-	definition (name: "PHOTON RELAY", author: "tonforti@gmail.com") {
-    	capability "Switch"
-	}
+// A Spark function to parse the commands
+int relay1(String command);
+int relay2(String command);
+int relay3(String command);
+int relay4(String command);
+int relay5(String command);
+int relay6(String command);
+int relay7(String command);
+int relay8(String command);
 
-    // tile definitions
-	tiles {
-		standardTile("switch", "device.switch", width: 2, height: 2, canChangeIcon: true) {
-		state "on", label: '${name}', action: "switch.off", icon: "st.switches.switch.on", backgroundColor: "#79b821"
-		state "off", label: '${name}', action: "switch.on", icon: "st.switches.switch.off", backgroundColor: "#ffffff"
-		}
+// We name pins 
+int r1 = D0; 
+int r2 = D1;
+int r3 = D2;
+int r4 = D3;
+int r5 = D4;
+int r6 = D5;
+int r7 = D6;
+int r8 = D7;
 
-		main "switch"
-		details "switch"
-	}
-}
 
-def parse(String description) {
-	log.error "This device does not support incoming events"
-	return null
-}
 
-def on() {
-	put '1'
-    sendEvent(name: 'switch', value: 'on')
+// This routine runs only once upon reset
+void setup() 
+{
+  //Register Spark functions
+  Spark.function("strelay1", relay1);  
+  Spark.function("strelay2", relay2);
+  Spark.function("strelay3", relay3);
+  Spark.function("strelay4", relay4);
+  Spark.function("strelay5", relay5);
+  Spark.function("strelay6", relay6);
+  Spark.function("strelay7", relay7);
+  Spark.function("strelay8", relay8);
+  
+  // Initialize output pins
+  pinMode(r1, OUTPUT);
+  pinMode(r2, OUTPUT);
+  pinMode(r3, OUTPUT);
+  pinMode(r4, OUTPUT);
+  pinMode(r5, OUTPUT);
+  pinMode(r6, OUTPUT);
+  pinMode(r7, OUTPUT);
+  pinMode(r8, OUTPUT);
+  
+  // take control of the LED
+  RGB.control(true);
+  
+  // the following sets the RGB LED to light green:
+  RGB.color(0, 5, 0);
 }
 
-def off() {
-	put '0'
-    sendEvent(name: 'switch', value: 'off')
+
+
+// This routine loops forever 
+void loop()
+{
+  // nothing here
 }
 
-private put(relaystate) {
-    //Spark Core API Call
-	httpPost(
-		uri: "https://api.spark.io/v1/devices/${deviceId}/strelay${relaynum}",
-        body: [access_token: token, command: relaystate],  
-	) {response -> log.debug (response.data)}
+
+
+//acts based on messages from spark cloud
+int relay1(String command)
+{
+  if (command == "1") 
+    {   
+    digitalWrite(r1, HIGH);   // Turn ON the relay
+    return 1;
+    } 
+  else 
+    {               
+    digitalWrite(r1, LOW);    // Turn OFF the relay
+    return 0;
+    }
+}
+
+int relay2(String command)
+{
+  if (command == "1") 
+    {   
+    digitalWrite(r2, HIGH);   // Turn ON the relay
+    return 1;
+    } 
+  else 
+    {               
+    digitalWrite(r2, LOW);    // Turn OFF the relay
+    return 0;
+    }
+}
+
+int relay3(String command)
+{
+  if (command == "1") 
+    {   
+    digitalWrite(r3, HIGH);   // Turn ON the relay
+    return 1;
+    } 
+  else 
+    {               
+    digitalWrite(r3, LOW);    // Turn OFF the relay
+    return 0;
+    }
+}
+
+int relay4(String command)
+{
+  if (command == "1") 
+    {   
+    digitalWrite(r4, HIGH);   // Turn ON the relay
+    return 1;
+    } 
+  else 
+    {               
+    digitalWrite(r4, LOW);    // Turn OFF the relay
+    return 0;
+    }
+}
+
+int relay5(String command)
+{
+  if (command == "1") 
+    {   
+    digitalWrite(r5, HIGH);   // Turn ON the relay
+    return 1;
+    } 
+  else 
+    {               
+    digitalWrite(r5, LOW);    // Turn OFF the relay
+    return 0;
+    }
+}
+
+int relay6(String command)
+{
+  if (command == "1") 
+    {   
+    digitalWrite(r6, HIGH);   // Turn ON the relay
+    return 1;
+    } 
+  else 
+    {               
+    digitalWrite(r6, LOW);    // Turn OFF the relay
+    return 0;
+    }
+}
+
+int relay7(String command)
+{
+  if (command == "1") 
+    {   
+    digitalWrite(r7, HIGH);   // Turn ON the relay
+    return 1;
+    } 
+  else 
+    {               
+    digitalWrite(r7, LOW);    // Turn OFF the relay
+    return 0;
+    }
+}
+
+int relay8(String command)
+{
+  if (command == "1") 
+    {   
+    digitalWrite(r8, HIGH);   // Turn ON the relay
+    return 1;
+    } 
+  else 
+    {               
+    digitalWrite(r8, LOW);    // Turn OFF the relay
+    return 0;
+    }
 }
