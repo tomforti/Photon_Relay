@@ -7,4 +7,4 @@ To set up
 3. Add a new deivce and use the newly made device type
 4. In preferences of the new device add you photons token and device ID
 5. In preferences tell smartthings which relay it will control.
-6. Code is all setup for use with eagle relay board. 
+6. Code is all setup for use with eagle relay board see zip file for eagle board. 
